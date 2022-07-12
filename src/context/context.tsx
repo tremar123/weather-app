@@ -1,5 +1,5 @@
-import { createContext, useState } from "react";
-import Weather from "../types";
+import React, { useState } from "react";
+import Weather from "../types/types";
 import { API_KEY } from "@env";
 
 interface WeatherDataInterface {
@@ -9,7 +9,9 @@ interface WeatherDataInterface {
     getData: () => void;
 }
 
-export const WeatherData = createContext<WeatherDataInterface | null>(null);
+export const WeatherData = React.createContext<WeatherDataInterface | null>(
+    null
+);
 
 export const WeatherDataProvider: React.FC<React.PropsWithChildren> = ({
     children,
@@ -21,17 +23,18 @@ export const WeatherDataProvider: React.FC<React.PropsWithChildren> = ({
         const res = await fetch(
             `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${location}&days=10&aqi=yes&alerts=yes`
         );
-        const weatherData: Weather = await res.json();
-        console.log(weatherData.current);
+        console.log(res);
+    };
+
+    const setLocationHandler = async (newLocation: string) => {
+        setLocation(newLocation);
     };
 
     const value: WeatherDataInterface = {
         data: data,
         location: location,
-        setLocation: setLocation,
+        setLocation: setLocationHandler,
         getData: getDataHandler,
     };
-    return (
-        <WeatherData.Provider value={value}>{children}</WeatherData.Provider>
-    );
+    return <WeatherData.Provider value={value} children={children} />;
 };

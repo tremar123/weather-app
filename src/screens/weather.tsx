@@ -6,6 +6,7 @@ import { WeatherData } from "../context/context";
 const Weather: React.FC = () => {
     const { t } = useTranslation();
     const ctx = useContext(WeatherData);
+
     return (
         <>
             <Text>t("weather")</Text>

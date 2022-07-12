@@ -7,6 +7,7 @@ import "./assets/i18n/i18n";
 import Meteogram from "./src/screens/meteogram";
 import Weather from "./src/screens/weather";
 import { WeatherDataProvider } from "./src/context/context";
+import Settings from "./src/screens/settings";
 
 const Tab = createBottomTabNavigator();
 
@@ -24,6 +25,7 @@ const App: React.FC = () => {
                 >
                     <Tab.Screen name={t("weather")} component={Weather} />
                     <Tab.Screen name={t("meteograms")} component={Meteogram} />
+                    <Tab.Screen name={t("settings")} component={Settings} />
                 </Tab.Navigator>
             </NavigationContainer>
         </WeatherDataProvider>
