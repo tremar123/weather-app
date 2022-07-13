@@ -10,7 +10,9 @@ const Weather: React.FC = () => {
     return (
         <>
             <Text>t("weather")</Text>
-            <Button onPress={ctx?.getData} title={"button"}></Button>
+            <Button onPress={ctx?.fetchData} title={"button"}></Button>
+            <Text>{ctx?.data}</Text>
+            <Text>{ctx?.location}</Text>
         </>
     );
 };
