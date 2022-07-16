@@ -19,14 +19,13 @@ const Root: React.FC = () => {
     // should I use useEffect here?
     useEffect(() => {
         ctx?.updateLocationFromLocalStorage();
-        // TODO: test this, local gives error
         NetInfo.fetch().then((state) => {
             if (!state.isConnected) {
                 ctx?.fetchData();
                 console.log("fetching from internet");
             } else {
                 console.log("updating from local");
-                ctx?.updateFromLocalStorage();
+                ctx?.updateDataFromLocalStorage();
             }
         });
     }, []);

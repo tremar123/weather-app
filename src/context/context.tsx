@@ -7,17 +7,17 @@ import { API_KEY } from "@env";
 interface WeatherDataInterface {
     data: Weather | null;
     location: string | null;
-    setLocation: (location: string) => void;
-    fetchData: () => void;
-    updateFromLocalStorage: () => void;
-    updateLocationFromLocalStorage: () => void;
+    setLocation: (location: string) => Promise<void>;
+    fetchData: () => Promise<void>;
+    updateDataFromLocalStorage: () => Promise<void>;
+    updateLocationFromLocalStorage: () => Promise<void>;
 }
 
 export const WeatherData = React.createContext<WeatherDataInterface | null>(
     null
 );
 
-export const WeatherDataProvider: React.FC<React.PropsWithChildren> = ({
+export const WeatherDataProvider: React.FC<React.PropsWithChildren<null>> = ({
     children,
 }) => {
     const [data, setData] = useState<Weather | null>(null);
@@ -31,7 +31,7 @@ export const WeatherDataProvider: React.FC<React.PropsWithChildren> = ({
     };
 
     const updateLocationFromLocalStorage = async () => {
-        const savedLocation = await AsyncStorage.getItem("location")
+        const savedLocation = await AsyncStorage.getItem("location");
         setLocation(savedLocation);
     };
 
@@ -53,7 +53,7 @@ export const WeatherDataProvider: React.FC<React.PropsWithChildren> = ({
         location: location,
         setLocation: setLocationHandler,
         fetchData: fetchDataHandler,
-        updateFromLocalStorage: updateDataFromLocalStorage,
+        updateDataFromLocalStorage: updateDataFromLocalStorage,
         updateLocationFromLocalStorage: updateLocationFromLocalStorage,
     };
     return <WeatherData.Provider value={value} children={children} />;
