@@ -1,20 +1,8 @@
-import React, { useContext } from "react";
-import { Text, Button } from "react-native";
-import { WeatherData } from "../context/context";
+import React from "react";
+import LocationSettings from "../components/LocationSettings";
 
 const Settings: React.FC = () => {
-    const ctx = useContext(WeatherData);
-
-    const setLocation = () => {
-        ctx?.setLocation("Paris");
-    };
-
-    return (
-        <>
-            <Text>setting</Text>
-            <Button onPress={setLocation} title={"location"}></Button>
-        </>
-    );
+    return <LocationSettings />;
 };
 
 export default Settings;

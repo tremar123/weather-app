@@ -17,9 +17,7 @@ export const WeatherData = React.createContext<WeatherDataInterface | null>(
     null
 );
 
-export const WeatherDataProvider: React.FC<React.PropsWithChildren<null>> = ({
-    children,
-}) => {
+export const WeatherDataProvider: React.FC = ({ children }) => {
     const [data, setData] = useState<Weather | null>(null);
     const [location, setLocation] = useState<string | null>(null);
 
@@ -39,8 +37,13 @@ export const WeatherDataProvider: React.FC<React.PropsWithChildren<null>> = ({
         const res = await fetch(
             `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${location}&days=10&aqi=yes&alerts=yes`
         );
-        const responseData = await res.json();
-        await AsyncStorage.setItem("weatherData", JSON.stringify(responseData));
+        if (res.ok) {
+            const responseData = await res.json();
+            await AsyncStorage.setItem(
+                "weatherData",
+                JSON.stringify(responseData)
+            );
+        }
     };
 
     const setLocationHandler = async (newLocation: string) => {

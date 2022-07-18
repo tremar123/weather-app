@@ -1,3 +1,14 @@
+export interface LocationAutoComplete {
+    id: number;
+    name: string;
+    region: string;
+    country: string;
+    lat: number;
+    lot: number;
+    url: string;
+}
+
+// weather data from weatherapi.com
 export default interface Weather {
     location: Location;
     current: Current;
