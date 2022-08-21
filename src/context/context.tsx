@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Weather from "../types/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -39,6 +39,7 @@ export const WeatherDataProvider: React.FC = ({ children }) => {
         );
         if (res.ok) {
             const responseData = await res.json();
+            setData(responseData);
             await AsyncStorage.setItem(
                 "weatherData",
                 JSON.stringify(responseData)
@@ -59,5 +60,10 @@ export const WeatherDataProvider: React.FC = ({ children }) => {
         updateDataFromLocalStorage: updateDataFromLocalStorage,
         updateLocationFromLocalStorage: updateLocationFromLocalStorage,
     };
+
+    useEffect(() => {
+        fetchDataHandler();
+    }, [location]);
+
     return <WeatherData.Provider value={value} children={children} />;
 };

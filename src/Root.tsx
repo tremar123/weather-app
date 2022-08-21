@@ -16,20 +16,6 @@ const Root: React.FC = () => {
     const { t } = useTranslation();
     const ctx = useContext(WeatherData);
 
-    // should I use useEffect here?
-    useEffect(() => {
-        ctx?.updateLocationFromLocalStorage();
-        NetInfo.fetch().then((state) => {
-            if (!state.isConnected) {
-                ctx?.fetchData();
-                console.log("fetching from internet");
-            } else {
-                console.log("updating from local");
-                ctx?.updateDataFromLocalStorage();
-            }
-        });
-    }, []);
-
     return (
         <NavigationContainer>
             <Tab.Navigator

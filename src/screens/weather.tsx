@@ -1,18 +1,39 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Button, ScrollView, Text } from "react-native";
+import {
+    RefreshControl,
+    ScrollView,
+    Text,
+    useColorScheme,
+} from "react-native";
 import { WeatherData } from "../context/context";
 
 const Weather: React.FC = () => {
     const { t } = useTranslation();
     const ctx = useContext(WeatherData);
+    const colorScheme = useColorScheme();
+    const [refreshing, setRefreshing] = useState(false);
+
+    const refreshHandler = async () => {
+        setRefreshing(true);
+        await ctx?.fetchData();
+        setRefreshing(false);
+    }
+
+    // TODO: update location from local storage
 
     return (
-        <ScrollView>
+        <ScrollView
+            refreshControl={
+                <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={refreshHandler}
+                />
+            }
+        >
             <Text>{t("weather")}</Text>
-            <Button onPress={ctx?.fetchData} title={"button"}></Button>
-            <Text>{JSON.stringify(ctx?.data)}</Text>
             <Text>{ctx?.location}</Text>
+            <Text>{JSON.stringify(ctx?.data)}</Text>
         </ScrollView>
     );
 };
