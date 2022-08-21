@@ -37,6 +37,7 @@ export const WeatherDataProvider: React.FC = ({ children }) => {
         const res = await fetch(
             `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${location}&days=10&aqi=yes&alerts=yes`
         );
+        // TODO: if offline then load data from local storage - use netinfo
         if (res.ok) {
             const responseData = await res.json();
             setData(responseData);

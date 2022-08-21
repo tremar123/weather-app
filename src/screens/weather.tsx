@@ -4,14 +4,14 @@ import {
     RefreshControl,
     ScrollView,
     Text,
-    useColorScheme,
+    TextStyle,
+    ViewStyle,
 } from "react-native";
 import { WeatherData } from "../context/context";
 
-const Weather: React.FC = () => {
+const Weather: React.FC<{textStyle: TextStyle, bgStyle: ViewStyle}> = (props) => {
     const { t } = useTranslation();
     const ctx = useContext(WeatherData);
-    const colorScheme = useColorScheme();
     const [refreshing, setRefreshing] = useState(false);
 
     const refreshHandler = async () => {
@@ -20,10 +20,8 @@ const Weather: React.FC = () => {
         setRefreshing(false);
     }
 
-    // TODO: update location from local storage
-
     return (
-        <ScrollView
+        <ScrollView style={props.bgStyle}
             refreshControl={
                 <RefreshControl
                     refreshing={refreshing}
@@ -31,9 +29,9 @@ const Weather: React.FC = () => {
                 />
             }
         >
-            <Text>{t("weather")}</Text>
-            <Text>{ctx?.location}</Text>
-            <Text>{JSON.stringify(ctx?.data)}</Text>
+            <Text style={props.textStyle}>{t("weather")}</Text>
+            <Text style={props.textStyle}>{ctx?.location}</Text>
+            <Text style={props.textStyle}>{JSON.stringify(ctx?.data)}</Text>
         </ScrollView>
     );
 };

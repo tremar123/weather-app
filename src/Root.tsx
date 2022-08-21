@@ -1,8 +1,8 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useTranslation } from "react-i18next";
-import NetInfo from "@react-native-community/netinfo";
 import React, { useContext, useEffect } from "react";
+import { TextStyle, useColorScheme, ViewStyle } from "react-native";
 
 import Meteogram from "./screens/meteogram";
 import Weather from "./screens/weather";
@@ -15,6 +15,19 @@ const Tab = createBottomTabNavigator();
 const Root: React.FC = () => {
     const { t } = useTranslation();
     const ctx = useContext(WeatherData);
+    const colorScheme = useColorScheme();
+
+    useEffect(() => {
+        ctx?.updateLocationFromLocalStorage();
+    }, []);
+
+    const textStyle: TextStyle = {
+        color: colorScheme === "dark" ? "white" : "black",
+    };
+
+    const bgStyle: ViewStyle = {
+        backgroundColor: colorScheme === "dark" ? "black" : "white",
+    };
 
     return (
         <NavigationContainer>
@@ -22,11 +35,21 @@ const Root: React.FC = () => {
                 screenOptions={{
                     headerShown: false,
                     tabBarIconStyle: { display: "none" },
+                    tabBarStyle: bgStyle,
                 }}
+                sceneContainerStyle={bgStyle}
             >
-                <Tab.Screen name={t("weather")} component={Weather} />
-                <Tab.Screen name={t("meteograms")} component={Meteogram} />
-                <Tab.Screen name={t("settings")} component={Settings} />
+                <Tab.Screen name={t("weather")}>
+                    {() => <Weather textStyle={textStyle} bgStyle={bgStyle} />}
+                </Tab.Screen>
+                <Tab.Screen name={t("meteograms")}>
+                    {() => (
+                        <Meteogram textStyle={textStyle} bgStyle={bgStyle} />
+                    )}
+                </Tab.Screen>
+                <Tab.Screen name={t("settings")}>
+                    {() => <Settings textStyle={textStyle} bgStyle={bgStyle} />}
+                </Tab.Screen>
             </Tab.Navigator>
         </NavigationContainer>
     );
